@@ -9,6 +9,7 @@ import PlayerStatue from '../../components/Statue/PlayerStatue'
 import { innerStatue } from '../../states/inner-states'
 import shapeTransfer from '../../services/Shape/shapeTransfer'
 import shuffleArray from '../../utils/shuffle/shuffleArray'
+import successChecker from '../../components/Shapes/successChecker'
 
 type InnerSingleProps = {
     index: number
@@ -71,6 +72,11 @@ const InnerSingle: FC<InnerSingleProps> = ({
 
     return (
         <div className="flex flex-1 flex-col items-center">
+            <div className="mt-10 text-5xl font-black">
+                {successChecker(innerStatues[index], innerPlayers[index])
+                    ? '성공'
+                    : '시도중..'}
+            </div>
             <div className="my-8 flex justify-center text-4xl">
                 유저 {playerNames[index]}가 도착한 내부
             </div>
