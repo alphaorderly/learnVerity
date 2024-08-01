@@ -5,7 +5,6 @@ const TriangleShadow: React.FC = () => (
     <motion.svg
         initial={{ scale: 0.5, opacity: 0.5 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0, opacity: 0 }}
         className="size-full"
         viewBox="0 0 100 100"
     >

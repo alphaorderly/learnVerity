@@ -1,53 +1,46 @@
 import React, { useEffect, useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
 import Shape from '../../types/shape'
 import TriangleShadow from './TriangleShadow'
 import SquareShadow from './SquareShadow'
 import CircleShadow from './CircleShadow'
 import WeirdShadow from './WeirdShadow'
 
-const renderShape = (shape: Shape | 'Weird') => {
+const renderShape = (shape: Shape | 'Weird', key: number) => {
     switch (shape) {
         case Shape.Triangle:
-            return <TriangleShadow />
+            return <TriangleShadow key={key} />
         case Shape.Square:
-            return <SquareShadow />
+            return <SquareShadow key={key} />
         case Shape.Circle:
-            return <CircleShadow />
+            return <CircleShadow key={key} />
         case 'Weird':
+            return <WeirdShadow key={key} />
         default:
-            return <WeirdShadow />
+            return <WeirdShadow key={key} />
     }
 }
 
 const BackShadow: React.FC<{ shapes: Shape[] }> = ({ shapes }) => {
-    const [currentShape, setCurrentShape] = useState<Shape | 'Weird'>(
-        shapes[0] || 'Weird'
-    )
-    const [, setIsAnimating] = useState<boolean>(false)
+    const [currentShape, setCurrentShape] = useState<number>(0)
 
     useEffect(() => {
-        if (shapes.length < 1) return
+        if (shapes.length === 0) {
+            return
+        }
 
-        let currentIndex = 0
         const interval = setInterval(() => {
-            setIsAnimating(true)
-            const nextIndex = (currentIndex + 1) % shapes.length
-            setCurrentShape(shapes[nextIndex])
-            currentIndex = nextIndex
-
-            setTimeout(() => {
-                setIsAnimating(false)
-            }, 500) // Transition duration of 0.5s
-        }, 2000) // 1.5s visible + 0.5s transition = 2s interval
+            setCurrentShape(prev => (prev + 1) % shapes.length)
+        }, 2000)
 
         return () => clearInterval(interval)
-    }, [shapes])
+    }, [shapes.length, shapes])
 
     return (
-        <AnimatePresence>
-            <div className="relative size-24">{renderShape(currentShape)}</div>
-        </AnimatePresence>
+        <div className="size-24">
+            {shapes.length === 0 && renderShape('Weird', 0)}
+            {shapes.length > 0 &&
+                renderShape(shapes[currentShape], currentShape)}
+        </div>
     )
 }
 
