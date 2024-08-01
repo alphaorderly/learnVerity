@@ -1,11 +1,8 @@
-import "./App.css";
+import './App.css'
+import MainStage from './pages/MainStage'
 
 function App() {
-    return (
-        <>
-            <div className="">test</div>
-        </>
-    );
+    return <MainStage />
 }
 
-export default App;
+export default App
