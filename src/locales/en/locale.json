@@ -1,0 +1,18 @@
+{
+    "knight": "Knight",
+    "ogre": "Ogre",
+    "username": "Inside room where {{username}} reached",
+    "trying": "Trying...",
+    "success": "Success!",
+    "usershape": "User has a shape of ",
+    "Circle": "Circle",
+    "Square": "Square",
+    "Triangle": "Triangle",
+    "Sphere": "Sphere",
+    "Cube": "Cube",
+    "Pyramid": "Pyramid",
+    "Cylinder": "Cylinder",
+    "Cone": "Cone",
+    "Prism": "Prism",
+    "Nothing": "Nothing"
+}

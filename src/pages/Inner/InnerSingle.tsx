@@ -1,15 +1,22 @@
 import { SetStateAction, useAtomValue } from 'jotai'
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Shape from '../../types/shape'
 import BackShadow from '../../components/Shadow/BackShadow'
 import { SetAtom } from '../../types/jotai'
 import { shapeAdder } from '../../services/Shape/shapeAdder'
-import { threeD, translate } from '../../constants/ShapeType'
+import {
+    threeD,
+    translate,
+    useShapeTranslate,
+} from '../../hooks/useShapeTranslate'
 import PlayerStatue from '../../components/Statue/PlayerStatue'
 import { innerStatue } from '../../states/inner-states'
 import shapeTransfer from '../../services/Shape/shapeTransfer'
 import shuffleArray from '../../utils/shuffle/shuffleArray'
-import successChecker from '../../components/Shapes/successChecker'
+import successChecker from '../../services/Shape/successChecker'
+import hiveKnight from '../../assets/hive-knight.jpg'
+import ogreImage from '../../assets/ogre.jpg'
 
 type InnerSingleProps = {
     index: number
@@ -26,6 +33,9 @@ const InnerSingle: FC<InnerSingleProps> = ({
     innerSetters,
     innerShapes,
 }) => {
+    const { t } = useTranslation()
+    const { translate } = useShapeTranslate()
+
     const playerNames = ['A', 'B', 'C']
 
     // Ogre is catched
@@ -65,29 +75,29 @@ const InnerSingle: FC<InnerSingleProps> = ({
 
     // string to unicode shape
     const shapes: Record<string, string> = {
-        Circle: '⚪',
-        Square: '⬛',
-        Triangle: '△',
+        Circle: '⚫️',
+        Square: '⬛️',
+        Triangle: '▲',
     }
 
     return (
         <div className="flex flex-1 flex-col items-center">
             <div className="mt-10 text-5xl font-black">
                 {successChecker(innerStatues[index], innerPlayers[index])
-                    ? '성공'
-                    : '시도중..'}
+                    ? t('success')
+                    : t('trying')}
             </div>
             <div className="my-8 flex justify-center text-4xl">
-                유저 {playerNames[index]}가 도착한 내부
+                {t('username', { username: playerNames[index] })}
             </div>
             <div className="text-2xl">
-                유저가 가진 도형 : {translate(innerPlayers[index])}
+                {t('usershape')} : {translate(innerPlayers[index])}
             </div>
             <BackShadow shapes={innerShapes[index]} />
-            <div className="flex select-none">
+            <div className="my-10 flex select-none">
                 {knight.map((shape, i) => (
                     <div
-                        className="m-2 flex size-16 items-center justify-center rounded-full border border-black bg-white text-2xl"
+                        className="m-2 flex size-16 items-center justify-center bg-white text-2xl"
                         onClick={() => {
                             if (
                                 innerPlayers[index] !== null &&
@@ -118,7 +128,16 @@ const InnerSingle: FC<InnerSingleProps> = ({
                             doSomething()
                         }}
                     >
-                        {catched[i] ? null : '기사'}
+                        {catched[i] ? null : (
+                            <div className="flex flex-col items-center font-semibold">
+                                <img
+                                    src={hiveKnight}
+                                    alt="knight"
+                                    className="size-24 object-cover"
+                                />
+                                {t('knight')}
+                            </div>
+                        )}
                         {catched[i] && !gotShape[i] ? shapes[shape] : null}
                     </div>
                 ))}
@@ -126,13 +145,20 @@ const InnerSingle: FC<InnerSingleProps> = ({
             <div>
                 {!ogre && catched.every(c => c) ? (
                     <div
-                        className="m-2 flex size-16 items-center justify-center rounded-full border border-black bg-white text-2xl"
+                        className="m-2 mt-10 flex size-16 items-center justify-center bg-white text-2xl"
                         onClick={() => {
                             setOgre(true)
                             doSomething()
                         }}
                     >
-                        오우거
+                        <div className="flex flex-col items-center font-semibold">
+                            <img
+                                src={ogreImage}
+                                alt="ogre"
+                                className="h-24 w-48 object-cover"
+                            />
+                            {t('ogre')}
+                        </div>
                     </div>
                 ) : null}
             </div>
