@@ -20,3 +20,6 @@ export const innerRightPlayer = atom<Shape | null>(null)
 /** Inner Statue */
 
 export const innerStatue = atom<Shape[]>([])
+
+/** Shadow Removal */
+export const innerShadowRemoval = atom<(Shape | null)[][]>([])

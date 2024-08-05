@@ -13,7 +13,7 @@ import {
 } from './Shapes'
 
 type ShapeRenderProps = {
-    shape: Shape
+    shape: Shape | null
     size: string
 }
 

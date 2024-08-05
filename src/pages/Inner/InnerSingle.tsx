@@ -1,4 +1,4 @@
-import { SetStateAction, useAtomValue } from 'jotai'
+import { SetStateAction, useAtom, useAtomValue } from 'jotai'
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Shape from '../../types/shape'
@@ -7,7 +7,7 @@ import { SetAtom } from '../../types/jotai'
 import { shapeAdder } from '../../services/Shape/shapeAdder'
 import { threeD, useShapeTranslate } from '../../hooks/useShapeTranslate'
 import PlayerStatue from '../../components/Statue/PlayerStatue'
-import { innerStatue } from '../../states/inner-states'
+import { innerShadowRemoval, innerStatue } from '../../states/inner-states'
 import shapeTransfer from '../../services/Shape/shapeTransfer'
 import shuffleArray from '../../utils/shuffle/shuffleArray'
 import successChecker from '../../services/Shape/successChecker'
@@ -43,11 +43,19 @@ const InnerSingle: FC<InnerSingleProps> = ({
 
     const [action, setAction] = useState<boolean>(false)
 
+    const [shadow, setShadow] = useAtom(innerShadowRemoval)
     const innerStatues = useAtomValue(innerStatue)
 
     const doSomething = () => {
         setAction(prev => !prev)
     }
+
+    const successed = successChecker(
+        index,
+        innerStatues[index],
+        innerPlayers[index],
+        shadow
+    )
 
     useEffect(() => {
         if (
@@ -79,9 +87,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
     return (
         <div className="flex flex-1 flex-col items-center">
             <div className="mt-10 text-5xl font-black">
-                {successChecker(innerStatues[index], innerPlayers[index])
-                    ? t('success')
-                    : t('trying')}
+                {successed ? t('success') : t('trying')}
             </div>
             <div className="my-8 flex justify-center text-center text-4xl">
                 {t('username', { username: playerNames[index] })}
@@ -188,12 +194,14 @@ const InnerSingle: FC<InnerSingleProps> = ({
                                 from,
                                 to,
                                 innerPlayersSetters,
-                                innerSetters
+                                innerSetters,
+                                setShadow,
+                                innerStatues
                             )
                         }}
                     >
                         <PlayerStatue
-                            shape={shape}
+                            shape={shadow[index][i]}
                             key={shape + playerNames[i]}
                             name={playerNames[i]}
                         />

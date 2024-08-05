@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import InnerSingle from './InnerSingle'
 import {
     innerLeftPlayer,
@@ -8,6 +8,7 @@ import {
     innerMiddleShapes,
     innerRightPlayer,
     innerRightShapes,
+    innerShadowRemoval,
     innerStatue,
 } from '../../states/inner-states'
 import Shape from '../../types/shape'
@@ -37,6 +38,8 @@ const InnerStage: FC = () => {
         setMiddleInnerPlayer,
         setRightInnerPlayer,
     ]
+
+    const setShadowRemoval = useSetAtom(innerShadowRemoval)
 
     useEffect(() => {
         if (
@@ -68,7 +71,7 @@ const InnerStage: FC = () => {
             // But they should be different
 
             // All combinations can be chosen, data is 0 or 1
-            const combination = [
+            const combination = shuffleArray([
                 [0, 0, 0],
                 [0, 0, 1],
                 [0, 1, 0],
@@ -77,7 +80,7 @@ const InnerStage: FC = () => {
                 [1, 0, 1],
                 [1, 1, 0],
                 [1, 1, 1],
-            ]
+            ])
 
             for (let i = 0; i < combination.length; i += 1) {
                 const [left, middle, right] = combination[i]
@@ -91,6 +94,23 @@ const InnerStage: FC = () => {
                         shuffled[0 + left],
                         shuffled[2 + middle],
                         shuffled[4 + right],
+                    ])
+                    setShadowRemoval([
+                        [
+                            shuffled[0 + left],
+                            shuffled[2 + middle],
+                            shuffled[4 + right],
+                        ],
+                        [
+                            shuffled[0 + left],
+                            shuffled[2 + middle],
+                            shuffled[4 + right],
+                        ],
+                        [
+                            shuffled[0 + left],
+                            shuffled[2 + middle],
+                            shuffled[4 + right],
+                        ],
                     ])
 
                     break
