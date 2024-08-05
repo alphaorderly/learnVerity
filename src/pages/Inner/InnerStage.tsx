@@ -100,7 +100,7 @@ const InnerStage: FC = () => {
     })
 
     return (
-        <div className="flex justify-around">
+        <div className="flex flex-col justify-around gap-40 lg:flex-row lg:gap-0">
             <InnerSingle
                 index={0}
                 innerPlayers={innerPlayers}

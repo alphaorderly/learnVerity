@@ -1,7 +1,7 @@
 {
     "knight": "Knight",
     "ogre": "Ogre",
-    "username": "Inside room where {{username}} reached",
+    "username": "Inside room where username {{username}} reached",
     "trying": "Trying...",
     "success": "Success!",
     "usershape": "User has a shape of ",

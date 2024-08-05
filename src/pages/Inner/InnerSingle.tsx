@@ -5,11 +5,7 @@ import Shape from '../../types/shape'
 import BackShadow from '../../components/Shadow/BackShadow'
 import { SetAtom } from '../../types/jotai'
 import { shapeAdder } from '../../services/Shape/shapeAdder'
-import {
-    threeD,
-    translate,
-    useShapeTranslate,
-} from '../../hooks/useShapeTranslate'
+import { threeD, useShapeTranslate } from '../../hooks/useShapeTranslate'
 import PlayerStatue from '../../components/Statue/PlayerStatue'
 import { innerStatue } from '../../states/inner-states'
 import shapeTransfer from '../../services/Shape/shapeTransfer'
@@ -87,14 +83,14 @@ const InnerSingle: FC<InnerSingleProps> = ({
                     ? t('success')
                     : t('trying')}
             </div>
-            <div className="my-8 flex justify-center text-4xl">
+            <div className="my-8 flex justify-center text-center text-4xl">
                 {t('username', { username: playerNames[index] })}
             </div>
-            <div className="text-2xl">
+            <div className="text-center text-2xl">
                 {t('usershape')} : {translate(innerPlayers[index])}
             </div>
             <BackShadow shapes={innerShapes[index]} />
-            <div className="my-10 flex select-none">
+            <div className="my-10 flex select-none gap-10">
                 {knight.map((shape, i) => (
                     <div
                         className="m-2 flex size-16 items-center justify-center bg-white text-2xl"

@@ -10,6 +10,9 @@ const MainStage: FC = () => {
 
     return (
         <div className="flex select-none flex-col">
+            <div className="pt-5 text-center text-3xl">
+                Change language / 언어 변경
+            </div>
             <select
                 name="languages"
                 id="language_select"
