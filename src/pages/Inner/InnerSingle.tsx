@@ -204,6 +204,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
                             shape={shadow[index][i]}
                             key={shape + playerNames[i]}
                             name={playerNames[i]}
+                            bold={index === i}
                         />
                     </div>
                 ))}
