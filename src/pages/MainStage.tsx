@@ -22,6 +22,7 @@ const MainStage: FC = () => {
             >
                 <option value="en">영어 / English</option>
                 <option value="ko">한국어 / Korean</option>
+                <option value="jp">日本語 / Japanese</option>
             </select>
             <InnerStage />
         </div>

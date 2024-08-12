@@ -1,0 +1,18 @@
+{
+    "knight": "ナイト",
+    "ogre": "オーガ",
+    "username": "裏世界{{username}}",
+    "trying": "ギミック中...",
+    "success": "成功!",
+    "usershape": "所持している図形 ",
+    "Circle": "丸",
+    "Square": "四角",
+    "Triangle": "三角",
+    "Sphere": "球体",
+    "Cube": "六面体",
+    "Pyramid": "ピラミッド",
+    "Cylinder": "筒状",
+    "Cone": "円推",
+    "Prism": "三角柱",
+    "Nothing": "未所持"
+}
