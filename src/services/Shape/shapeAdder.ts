@@ -1,12 +1,17 @@
 /* eslint-disable import/prefer-default-export */
+import { threeD } from '../../hooks/useShapeTranslate'
 import Shape from '../../types/shape'
 
 export const shapeAdder = (
     currentShape: Shape | null,
     newShape: Shape
 ): Shape => {
+    if (currentShape !== null && threeD.includes(currentShape)) {
+        return currentShape
+    }
+
     if (currentShape === null) {
-        return newShape
+        return newShape ?? Shape.Circle
     }
 
     switch (currentShape) {
@@ -47,5 +52,5 @@ export const shapeAdder = (
             return Shape.Circle
     }
 
-    return Shape.Circle
+    return newShape
 }

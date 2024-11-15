@@ -36,3 +36,22 @@ const successChecker = (
 }
 
 export default successChecker
+
+export const outsideSuccessChecker = (
+    statues: [
+        [Shape | null, Shape | null],
+        [Shape | null, Shape | null],
+        [Shape | null, Shape | null],
+    ],
+    call: Shape[]
+): boolean => {
+    if (
+        statues[0].includes(call[0]) ||
+        statues[1].includes(call[1]) ||
+        statues[2].includes(call[2])
+    ) {
+        return false
+    }
+
+    return true
+}

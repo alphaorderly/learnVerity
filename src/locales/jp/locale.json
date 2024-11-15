@@ -14,5 +14,7 @@
     "Cylinder": "筒状",
     "Cone": "円推",
     "Prism": "三角柱",
-    "Nothing": "未所持"
+    "Nothing": "未所持",
+    "innerCall": "内チャット",
+    "reset": "リセット"
 }

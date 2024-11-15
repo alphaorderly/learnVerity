@@ -14,5 +14,7 @@
     "Cylinder": "원기둥",
     "Cone": "원뿔",
     "Prism": "다면체",
-    "Nothing": "없음"
+    "Nothing": "없음",
+    "innerCall": "내부조 채팅",
+    "reset": "초기화"
 }

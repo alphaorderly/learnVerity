@@ -14,5 +14,7 @@
     "Cylinder": "Cylinder",
     "Cone": "Cone",
     "Prism": "Prism",
-    "Nothing": "Nothing"
+    "Nothing": "Nothing",
+    "innerCall": "Inside chat",
+    "reset": "Reset"
 }

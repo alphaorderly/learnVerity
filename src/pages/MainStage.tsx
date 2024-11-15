@@ -1,6 +1,7 @@
 import { ChangeEvent, FC } from 'react'
 import InnerStage from './Inner/InnerStage'
 import i18n from '../locales/i18n'
+import OuterStage from './Outer/OuterStage'
 
 const MainStage: FC = () => {
     const changeLanguage = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -9,7 +10,7 @@ const MainStage: FC = () => {
     }
 
     return (
-        <div className="flex select-none flex-col">
+        <div className="flex select-none flex-col pb-32">
             <div className="pt-5 text-center text-3xl">
                 Change language / 언어 변경
             </div>
@@ -24,7 +25,12 @@ const MainStage: FC = () => {
                 <option value="ko">한국어 / Korean</option>
                 <option value="jp">日本語 / Japanese</option>
             </select>
-            <InnerStage />
+            <div className="mb-[200px]">
+                <InnerStage />
+            </div>
+            <div>
+                <OuterStage />
+            </div>
         </div>
     )
 }
