@@ -53,5 +53,13 @@ export const outsideSuccessChecker = (
         return false
     }
 
+    if (
+        statues[0][0] === statues[0][1] ||
+        statues[1][0] === statues[1][1] ||
+        statues[2][0] === statues[2][1]
+    ) {
+        return false
+    }
+
     return true
 }
