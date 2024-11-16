@@ -99,6 +99,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
             <div className="my-10 flex select-none gap-10">
                 {knight.map((shape, i) => (
                     <div
+                        key={shape + playerNames[i]}
                         className="m-2 flex size-16 items-center justify-center bg-white text-2xl"
                         onClick={() => {
                             if (

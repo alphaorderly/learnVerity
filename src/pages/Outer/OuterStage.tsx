@@ -90,23 +90,18 @@ const OuterStage = () => {
     }
 
     useEffect(() => {
-        const wholeShapes = [
-            Shape.Circle,
-            Shape.Square,
-            Shape.Triangle,
-            Shape.Circle,
-            Shape.Square,
-            Shape.Triangle,
-        ]
+        if (call.length !== 3) return
+
+        const wholeShapes = [Shape.Circle, Shape.Triangle, Shape.Square]
 
         const shuffled = shuffleArray(wholeShapes)
 
-        setOuterStatue([
-            [shuffled[0], shuffled[1]],
-            [shuffled[2], shuffled[3]],
-            [shuffled[4], shuffled[5]],
-        ])
-    }, [])
+        const left = shuffleArray([call[0], shuffled[0]]) as [Shape, Shape]
+        const middle = shuffleArray([call[1], shuffled[1]]) as [Shape, Shape]
+        const right = shuffleArray([call[2], shuffled[2]]) as [Shape, Shape]
+
+        setOuterStatue([left, middle, right])
+    }, [call])
 
     const successed = outsideSuccessChecker(outerStatue, call)
 
@@ -129,8 +124,10 @@ const OuterStage = () => {
             <div className="mb-10 flex flex-col items-center gap-4">
                 <span className="text-2xl font-bold">{t('innerCall')}</span>
                 <div className="flex items-center gap-10 text-lg font-semibold">
-                    {call.map(item => (
-                        <div>{translate(item)}</div>
+                    {call.map((item, index) => (
+                        <div key={item + index.toFixed()}>
+                            {translate(item)}
+                        </div>
                     ))}
                 </div>
             </div>
@@ -184,7 +181,12 @@ const OuterStage = () => {
                     />
                     <div className="flex items-center gap-2">
                         {outerStatue[0].map(
-                            s => s !== null && <span>{shapes[s]}</span>
+                            (s, i) =>
+                                s !== null && (
+                                    <span key={s + i.toFixed()}>
+                                        {shapes[s]}
+                                    </span>
+                                )
                         )}
                     </div>
                 </div>
@@ -197,7 +199,12 @@ const OuterStage = () => {
                     />
                     <div className="flex items-center gap-2">
                         {outerStatue[1].map(
-                            s => s !== null && <span>{shapes[s]}</span>
+                            (s, i) =>
+                                s !== null && (
+                                    <span key={s + i.toFixed()}>
+                                        {shapes[s]}
+                                    </span>
+                                )
                         )}
                     </div>
                 </div>
@@ -210,7 +217,12 @@ const OuterStage = () => {
                     />
                     <div className="flex items-center gap-2">
                         {outerStatue[2].map(
-                            s => s !== null && <span>{shapes[s]}</span>
+                            (s, i) =>
+                                s !== null && (
+                                    <span key={s + i.toFixed()}>
+                                        {shapes[s]}
+                                    </span>
+                                )
                         )}
                     </div>
                 </div>
