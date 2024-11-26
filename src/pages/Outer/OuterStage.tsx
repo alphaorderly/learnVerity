@@ -10,6 +10,36 @@ import { threeD, useShapeTranslate } from '../../hooks/useShapeTranslate'
 import PlayerStatue from '../../components/Statue/PlayerStatue'
 import { shapeAdder } from '../../services/Shape/shapeAdder'
 import { outsideSuccessChecker } from '../../services/Shape/successChecker'
+import ShapeRender from '../../components/Shapes/ShapeRender'
+
+const Recipe = ({
+    shape1,
+    shape2,
+    result,
+    translate,
+}: {
+    shape1: Shape
+    shape2: Shape
+    result: Shape
+    translate: (shape: Shape) => string
+}) => (
+    <div className="flex items-center space-x-4 p-10 text-lg">
+        <div className="flex flex-col items-center gap-2">
+            <ShapeRender shape={shape1} size="30px" />
+            {translate(shape1)}
+        </div>
+        <div>+</div>
+        <div className="flex flex-col items-center gap-2">
+            <ShapeRender shape={shape2} size="30px" />
+            {translate(shape2)}
+        </div>
+        <div>=</div>
+        <div className="flex flex-col items-center gap-2">
+            <ShapeRender shape={result} size="30px" />
+            {translate(result)}
+        </div>
+    </div>
+)
 
 const OuterStage = () => {
     const { t } = useTranslation()
@@ -225,6 +255,47 @@ const OuterStage = () => {
                                 )
                         )}
                     </div>
+                </div>
+            </div>
+            <div className="mt-32 flex flex-col items-center gap-10">
+                <div className="text-3xl font-bold">도형 조합 표</div>
+                <div className="grid grid-cols-2">
+                    <Recipe
+                        shape1={Shape.Circle}
+                        shape2={Shape.Circle}
+                        result={Shape.Sphere}
+                        translate={translate}
+                    />
+                    <Recipe
+                        shape1={Shape.Circle}
+                        shape2={Shape.Square}
+                        result={Shape.Cylinder}
+                        translate={translate}
+                    />
+                    <Recipe
+                        shape1={Shape.Circle}
+                        shape2={Shape.Triangle}
+                        result={Shape.Cone}
+                        translate={translate}
+                    />
+                    <Recipe
+                        shape1={Shape.Square}
+                        shape2={Shape.Square}
+                        result={Shape.Cube}
+                        translate={translate}
+                    />
+                    <Recipe
+                        shape1={Shape.Square}
+                        shape2={Shape.Triangle}
+                        result={Shape.Prism}
+                        translate={translate}
+                    />
+                    <Recipe
+                        shape1={Shape.Triangle}
+                        shape2={Shape.Triangle}
+                        result={Shape.Pyramid}
+                        translate={translate}
+                    />
                 </div>
             </div>
         </div>

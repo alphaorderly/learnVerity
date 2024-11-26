@@ -10,7 +10,7 @@ const MainStage: FC = () => {
     }
 
     return (
-        <div className="flex select-none flex-col pb-32">
+        <div className="flex select-none flex-col pb-96">
             <div className="pt-5 text-center text-3xl">
                 Change language / 언어 변경
             </div>
