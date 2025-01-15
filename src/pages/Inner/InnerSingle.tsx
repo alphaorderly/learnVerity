@@ -86,21 +86,31 @@ const InnerSingle: FC<InnerSingleProps> = ({
 
     return (
         <div className="flex flex-1 flex-col items-center">
-            <div className="mt-10 text-5xl font-black">
+            <div className="mt-10 text-5xl font-black text-gray-800">
                 {successed ? t('success') : t('trying')}
             </div>
-            <div className="my-8 flex justify-center text-center text-4xl">
-                {t('username', { username: playerNames[index] })}
+
+            <div className="my-8 flex justify-center text-center">
+                <span className="rounded-lg bg-gray-50 px-6 py-2 text-4xl font-medium text-gray-700 shadow-sm">
+                    {t('username', { username: playerNames[index] })}
+                </span>
             </div>
-            <div className="text-center text-2xl">
-                {t('usershape')} : {translate(innerPlayers[index])}
+
+            <div className="text-center">
+                <span className="rounded-md bg-white px-4 py-2 text-2xl text-gray-600 shadow-sm">
+                    {t('usershape')} : {translate(innerPlayers[index])}
+                </span>
             </div>
-            <BackShadow shapes={innerShapes[index]} />
+
+            <div className="my-10">
+                <BackShadow shapes={innerShapes[index]} />
+            </div>
+
             <div className="my-10 flex select-none gap-10">
                 {knight.map((shape, i) => (
                     <div
                         key={shape + playerNames[i]}
-                        className="m-2 flex size-16 items-center justify-center bg-white text-2xl"
+                        className="m-2 flex size-16 cursor-pointer items-center justify-center rounded-lg bg-white text-2xl shadow-sm transition-colors hover:bg-gray-50"
                         onClick={() => {
                             if (
                                 innerPlayers[index] !== null &&
@@ -132,44 +142,54 @@ const InnerSingle: FC<InnerSingleProps> = ({
                         }}
                     >
                         {catched[i] ? null : (
-                            <div className="flex flex-col items-center font-semibold">
+                            <div className="flex flex-col items-center">
                                 <img
                                     src={hiveKnight}
                                     alt="knight"
-                                    className="size-24 object-cover"
+                                    className="size-24 rounded-md object-cover"
                                 />
-                                {t('knight')}
+                                <span className="mt-1 text-base font-medium text-gray-700">
+                                    {t('knight')}
+                                </span>
                             </div>
                         )}
-                        {catched[i] && !gotShape[i] ? shapes[shape] : null}
+                        {catched[i] && !gotShape[i] ? (
+                            <span className="transition-transform hover:scale-110">
+                                {shapes[shape]}
+                            </span>
+                        ) : null}
                     </div>
                 ))}
             </div>
+
             <div>
                 {!ogre && catched.every(c => c) ? (
                     <div
-                        className="m-2 mt-10 flex size-16 items-center justify-center bg-white text-2xl"
+                        className="m-2 mt-10 flex size-16 cursor-pointer items-center justify-center rounded-lg bg-white text-2xl shadow-sm transition-colors hover:bg-gray-50"
                         onClick={() => {
                             setOgre(true)
                             doSomething()
                         }}
                     >
-                        <div className="flex flex-col items-center font-semibold">
+                        <div className="flex flex-col items-center">
                             <img
                                 src={ogreImage}
                                 alt="ogre"
-                                className="h-24 w-48 object-cover"
+                                className="h-24 w-48 rounded-md object-cover"
                             />
-                            {t('ogre')}
+                            <span className="mt-1 text-base font-medium text-gray-700">
+                                {t('ogre')}
+                            </span>
                         </div>
                     </div>
                 ) : null}
             </div>
+
             <div className="flex gap-10">
                 {innerStatues.map((shape, i) => (
                     <div
                         key={shape + playerNames[i]}
-                        className="relative"
+                        className="relative cursor-pointer transition-transform hover:scale-105"
                         style={{
                             top: i === 1 ? '50px' : '0px',
                         }}

@@ -120,28 +120,38 @@ const InnerStage: FC = () => {
     })
 
     return (
-        <div className="flex flex-col justify-around gap-40 lg:flex-row lg:gap-0">
-            <InnerSingle
-                index={0}
-                innerPlayers={innerPlayers}
-                innerPlayersSetters={innerPlayersSetters}
-                innerSetters={innerSetters}
-                innerShapes={innerShapes}
-            />
-            <InnerSingle
-                index={1}
-                innerPlayers={innerPlayers}
-                innerPlayersSetters={innerPlayersSetters}
-                innerSetters={innerSetters}
-                innerShapes={innerShapes}
-            />
-            <InnerSingle
-                index={2}
-                innerPlayers={innerPlayers}
-                innerPlayersSetters={innerPlayersSetters}
-                innerSetters={innerSetters}
-                innerShapes={innerShapes}
-            />
+        <div className="min-h-screen">
+            <div className="mx-auto max-w-[1920px] p-8">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
+                    <div className="rounded-2xl bg-white/50 p-6  transition-transform hover:scale-[1.02] lg:p-8">
+                        <InnerSingle
+                            index={0}
+                            innerPlayers={innerPlayers}
+                            innerPlayersSetters={innerPlayersSetters}
+                            innerSetters={innerSetters}
+                            innerShapes={innerShapes}
+                        />
+                    </div>
+                    <div className="relative rounded-2xl bg-white/50 p-6 transition-transform hover:scale-[1.02] lg:top-12 lg:p-8">
+                        <InnerSingle
+                            index={1}
+                            innerPlayers={innerPlayers}
+                            innerPlayersSetters={innerPlayersSetters}
+                            innerSetters={innerSetters}
+                            innerShapes={innerShapes}
+                        />
+                    </div>
+                    <div className="rounded-2xl bg-white/50 p-6 transition-transform hover:scale-[1.02] lg:p-8">
+                        <InnerSingle
+                            index={2}
+                            innerPlayers={innerPlayers}
+                            innerPlayersSetters={innerPlayersSetters}
+                            innerSetters={innerSetters}
+                            innerShapes={innerShapes}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

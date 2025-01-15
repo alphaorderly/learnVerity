@@ -15,19 +15,18 @@ const PlayerStatue: FC<PlayerStatueProps> = ({
     bold,
     onClick,
 }) => (
-    <div className="relative flex size-16 items-center justify-center rounded-full border-2 border-black ">
-        <div
-            className="text-2xl"
-            style={{
-                fontWeight: bold ? 'bolder' : 'light',
-            }}
-            onClick={onClick}
-        >
-            {name}
+    <div
+        className={`flex cursor-pointer flex-col items-center gap-4 ${
+            bold ? 'font-bold' : ''
+        }`}
+        onClick={onClick}
+    >
+        <div className="flex size-32 items-center justify-center rounded-full bg-white shadow-md">
+            <div className="flex size-24 items-center justify-center">
+                <ShapeRender shape={shape} size="64px" />
+            </div>
         </div>
-        <div className="absolute -bottom-6 rounded-full bg-white p-1">
-            <ShapeRender shape={shape} size="30px" />
-        </div>
+        <div className="text-xl">{name}</div>
     </div>
 )
 
