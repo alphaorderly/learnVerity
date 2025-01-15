@@ -235,7 +235,8 @@ const OuterStage = () => {
                                     <PlayerStatue
                                         shape={shapeAdder(
                                             outerStatue[index][0],
-                                            outerStatue[index][1]
+                                            outerStatue[index][1] ||
+                                                Shape.Circle
                                         )}
                                         name={String.fromCharCode(65 + index)}
                                         bold
