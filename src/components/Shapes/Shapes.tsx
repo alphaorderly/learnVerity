@@ -1,4 +1,7 @@
 import { FC } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { useSpring, animated } from '@react-spring/three'
+import { Vector3 } from 'three'
 
 type shapeProps = {
     size: string
@@ -7,7 +10,7 @@ type shapeProps = {
 export const Circle: FC<shapeProps> = ({ size }) => (
     <div className="flex items-center justify-center rounded-full">
         <div
-            className="rounded-full bg-black"
+            className="rounded-full bg-gray-800"
             style={{
                 width: size,
                 height: size,
@@ -19,7 +22,7 @@ export const Circle: FC<shapeProps> = ({ size }) => (
 export const Square: FC<shapeProps> = ({ size }) => (
     <div className="flex items-center justify-center">
         <div
-            className="bg-black"
+            className="bg-gray-800"
             style={{
                 width: size,
                 height: size,
@@ -31,7 +34,7 @@ export const Square: FC<shapeProps> = ({ size }) => (
 export const Triangle: FC<shapeProps> = ({ size }) => (
     <div className="flex items-center justify-center">
         <div
-            className="border-transparent border-b-black"
+            className="border-transparent border-b-gray-800"
             style={{
                 width: '0',
                 height: '0',
@@ -43,201 +46,473 @@ export const Triangle: FC<shapeProps> = ({ size }) => (
     </div>
 )
 
-export const Sphere: FC<shapeProps> = ({ size }) => (
-    <div className="flex items-center justify-center">
-        <div
-            className="relative rounded-full"
-            style={{
-                width: `calc(${size})`,
-                height: `calc(${size})`,
-                background: `radial-gradient(circle at 50% 40%, #ffffff, #cccccc, #000000)`,
-                boxShadow: `0 10px 20px rgba(0, 0, 0, 0.5), inset -10px -10px 20px rgba(0, 0, 0, 0.25)`,
-            }}
-        />
-    </div>
-)
-
-export const Cube: FC<shapeProps> = ({ size }) => {
-    const faceSize = `calc(${size} / 1.4)` // Calculate face size
-    const translationZ = `calc(${faceSize} / -2)`
-    const translationY = `calc(${faceSize} / 1.47)` // (1 / sqrt(2)) * faceSize / 2
+export const Sphere: FC<shapeProps> = ({ size }) => {
+    const springs = useSpring({
+        scale: [1, 1, 1] as unknown as Vector3,
+        from: { scale: [0, 0, 0] as unknown as Vector3 },
+        config: { mass: 1, tension: 280, friction: 20 },
+    })
 
     return (
         <div
-            className="relative -top-1 left-1 m-1"
-            style={{ width: size, height: size, perspective: '800px' }}
+            className="flex items-center justify-center"
+            style={{ width: size, height: size }}
         >
-            {/* Top Face */}
-            <div
-                className="absolute bg-gray-400"
-                style={{
-                    width: faceSize,
-                    height: faceSize,
-                    transform: `rotateX(60deg) rotateZ(45deg)`,
-                    transformOrigin: 'center',
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+            <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 20], fov: 15 }}>
+                <ambientLight intensity={1.2} />
+                <directionalLight
+                    position={[15, 15, 15]}
+                    intensity={1.5}
+                    castShadow
+                />
+                <directionalLight position={[-15, -15, -15]} intensity={0.8} />
+                <pointLight
+                    position={[8, 8, 0]}
+                    intensity={0.8}
+                    distance={25}
+                    decay={1.5}
+                />
+                <pointLight
+                    position={[-8, -8, 0]}
+                    intensity={0.6}
+                    distance={25}
+                    decay={1.5}
+                />
+                <animated.mesh scale={springs.scale}>
+                    <sphereGeometry args={[2.5, 64, 64]} />
+                    <meshStandardMaterial
+                        color="#707070"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                </animated.mesh>
+            </Canvas>
+        </div>
+    )
+}
+
+export const Cube: FC<shapeProps> = ({ size }) => {
+    const springs = useSpring({
+        scale: [1, 1, 1] as unknown as Vector3,
+        from: { scale: [0, 0, 0] as unknown as Vector3 },
+        config: { mass: 1, tension: 280, friction: 20 },
+    })
+
+    return (
+        <div
+            className="flex items-center justify-center"
+            style={{ width: size, height: size }}
+        >
+            <Canvas
+                dpr={[1, 2]}
+                camera={{
+                    position: [0, 0, 15],
+                    fov: 15, // FOV를 더 줄여서 원근감 최소화
                 }}
-            />
-            {/* Left Face */}
-            <div
-                className="absolute bg-gray-500"
-                style={{
-                    width: faceSize,
-                    height: faceSize,
-                    transform: `rotateY(-45deg) skewY(-20deg) translateY(${translationY}) translateZ(${translationZ})`,
-                    transformOrigin: 'center',
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-                }}
-            />
-            {/* Right Face */}
-            <div
-                className="absolute bg-gray-600"
-                style={{
-                    width: faceSize,
-                    height: faceSize,
-                    transform: `rotateY(45deg) skewY(20deg) translateY(${translationY}) translateZ(${translationZ})`,
-                    transformOrigin: 'center',
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-                }}
-            />
+            >
+                <ambientLight intensity={1.3} />
+                <directionalLight
+                    position={[15, 15, 15]}
+                    intensity={1.2}
+                    castShadow
+                />
+                <directionalLight position={[-15, -15, -15]} intensity={0.7} />
+                <pointLight
+                    position={[8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <animated.mesh
+                    scale={springs.scale}
+                    rotation={[0.615, -0.785, 0]}
+                    position={[0.2, 0.2, 0]}
+                >
+                    <boxGeometry args={[2.3, 2.3, 2.3]} />
+                    <meshStandardMaterial
+                        attach="material-0"
+                        color="#909090"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                    <meshStandardMaterial
+                        attach="material-1"
+                        color="#606060"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                    <meshStandardMaterial
+                        attach="material-2"
+                        color="#808080"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                    <meshStandardMaterial
+                        attach="material-3"
+                        color="#707070"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                    <meshStandardMaterial
+                        attach="material-4"
+                        color="#858585"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                    <meshStandardMaterial
+                        attach="material-5"
+                        color="#757575"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                </animated.mesh>
+            </Canvas>
         </div>
     )
 }
 
 export const Pyramid: FC<shapeProps> = ({ size }) => {
-    const faceSize = `calc(${size} * 1.4)` // Adjusted face size for better visualization
-    const translationZ = `calc(${faceSize} / -3.6)` // Fine-tuned for correct 3D alignment
-    const translationY = `calc(${faceSize} / 2.75)` // Fine-tuned for better alignment
+    const springs = useSpring({
+        scale: [1, 1, 1] as unknown as Vector3,
+        from: { scale: [0, 0, 0] as unknown as Vector3 },
+        config: { mass: 1, tension: 280, friction: 20 },
+    })
 
     return (
         <div
-            className="relative -left-1 bottom-2"
-            style={{ width: size, height: size, perspective: '800px' }}
+            className="flex items-center justify-center"
+            style={{ width: size, height: size }}
         >
-            {/* Left Face */}
-            <div
-                className="absolute"
-                style={{
-                    width: faceSize,
-                    height: faceSize,
-                    transform: `rotateY(-30deg) rotateX(-45deg) translateY(${translationY}) translateZ(${translationZ})`,
-                    transformOrigin: 'center',
-                    clipPath: 'polygon(45% 0%, 0% 100%, 50% 70%)', // Slightly adjusted triangular shape
-                    background: 'linear-gradient(135deg, #b8b8b8, #7f8c8d)', // Slightly adjusted gradient for left face
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.25)', // Slightly reduced shadow for subtle effect
+            <Canvas
+                dpr={[1, 2]}
+                camera={{
+                    position: [0, 10, 12],
+                    fov: 15,
                 }}
-            />
-            {/* Right Face */}
-            <div
-                className="absolute"
-                style={{
-                    width: faceSize,
-                    height: faceSize,
-                    transform: `rotateY(30deg) rotateX(-45deg) translateY(${translationY}) translateZ(${translationZ})`,
-                    transformOrigin: 'center',
-                    clipPath: 'polygon(55% 0%, 40% 70%, 91% 100%)', // Slightly adjusted triangular shape
-                    background: 'linear-gradient(135deg, #dcdcdc, #b0b0b0)', // Slightly adjusted gradient for right face
-                    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.25)', // Slightly reduced shadow for subtle effect
-                }}
-            />
+            >
+                <ambientLight intensity={1.3} />
+                <directionalLight
+                    position={[15, 15, 15]}
+                    intensity={1.2}
+                    castShadow
+                />
+                <directionalLight position={[-15, -15, -15]} intensity={0.7} />
+                <pointLight
+                    position={[8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <animated.mesh
+                    scale={springs.scale}
+                    rotation={[0.615, -0.785, 0]}
+                    position={[0.2, 0.2, 0]}
+                >
+                    <tetrahedronGeometry args={[2]} />
+                    <meshStandardMaterial
+                        color="#808080"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                </animated.mesh>
+            </Canvas>
         </div>
     )
 }
 
 export const Cylinder: FC<shapeProps> = ({ size }) => {
-    const faceSize = `calc(${size} / 1.2)` // Diameter of the cylinder's top face
-    const height = `calc(${size} / 1.4)` // Height of the cylinder
-    const topEllipseHeight = faceSize // Height of the top ellipse
+    const springs = useSpring({
+        scale: [1, 1, 1] as unknown as Vector3,
+        from: { scale: [0, 0, 0] as unknown as Vector3 },
+        config: { mass: 1, tension: 280, friction: 20 },
+    })
 
     return (
         <div
-            className="relative left-[3px] m-1"
-            style={{ width: size, height: size, perspective: '800px' }}
+            className="flex items-center justify-center"
+            style={{ width: size, height: size }}
         >
-            {/* Top Face */}
-            <div
-                className="absolute z-10 rounded-full"
-                style={{
-                    width: faceSize,
-                    height: topEllipseHeight,
-                    background: 'linear-gradient(145deg, #e0e0e0, #5c5c5c)', // Grayscale gradient
-                    transform: `translateY(calc(${height} * -0.3)) rotateX(60deg)`,
-                    transformOrigin: 'center',
+            <Canvas
+                dpr={[1, 2]}
+                camera={{
+                    position: [0, 0, 16],
+                    fov: 15,
                 }}
-            />
-            {/* Curved Surface */}
-            <div
-                className="absolute"
-                style={{
-                    width: faceSize,
-                    height,
-                    background: 'linear-gradient(to bottom, #c0c0c0, #808080)', // Grayscale gradient
-                    transform: `translateY(calc(${height} / 3.2))`,
-                    transformOrigin: 'center',
-                    borderBottomLeftRadius: '50% 30%',
-                    borderBottomRightRadius: '50% 30%',
-                }}
-            />
+            >
+                <ambientLight intensity={1.3} />
+                <directionalLight
+                    position={[15, 15, 15]}
+                    intensity={1.2}
+                    castShadow
+                />
+                <directionalLight position={[-15, -15, -15]} intensity={0.7} />
+                <pointLight
+                    position={[8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <animated.mesh
+                    scale={springs.scale}
+                    rotation={[0.615, -0.785, 0]}
+                    position={[0.2, 0.2, 0]}
+                >
+                    <cylinderGeometry args={[1.5, 1.5, 2.5, 32]} />
+                    <meshStandardMaterial
+                        color="#808080"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                </animated.mesh>
+            </Canvas>
         </div>
     )
 }
 
-export const Cone: FC<shapeProps> = ({ size }) => (
-    <div
-        className="relative m-1"
-        style={{ width: size, height: size, perspective: '1000px' }}
-    >
-        {/* Cone surface */}
-        <div
-            className="absolute inset-0"
-            style={{
-                clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
-                background:
-                    'linear-gradient(-45deg, rgba(80, 80, 80, 0.667) 0%, rgba(0,0,0,0) 90%, rgba(0,0,0,0.1) 100%)',
-                transform: 'rotateX(5deg)',
-                transformOrigin: 'bottom',
-                borderBottomLeftRadius: '50% 60%',
-                borderBottomRightRadius: '50% 60%',
-            }}
-        />
-    </div>
-)
+export const Cone: FC<shapeProps> = ({ size }) => {
+    const springs = useSpring({
+        scale: [1, 1, 1] as unknown as Vector3,
+        from: { scale: [0, 0, 0] as unknown as Vector3 },
+        config: { mass: 1, tension: 280, friction: 20 },
+    })
 
-export const Prism: FC<shapeProps> = ({ size }) => (
-    <div
-        className="relative m-1"
-        style={{ width: size, height: size, perspective: '1000px' }}
-    >
-        {/* Front face */}
+    return (
         <div
-            className="absolute inset-0"
-            style={{
-                clipPath: 'polygon(100% 0%, 0% 0%, 50% 50%)',
-                background: 'linear-gradient(to bottom, #d0d0d0, #2a2a2a)',
-                boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)',
-            }}
-        />
-        {/* Left face */}
+            className="flex items-center justify-center"
+            style={{ width: size, height: size }}
+        >
+            <Canvas
+                dpr={[1, 2]}
+                camera={{
+                    position: [0, 0, 15],
+                    fov: 15,
+                }}
+            >
+                <ambientLight intensity={1.3} />
+                <directionalLight
+                    position={[12, 15, 15]}
+                    intensity={1.2}
+                    castShadow
+                />
+                <directionalLight position={[-15, -15, -15]} intensity={0.7} />
+                <pointLight
+                    position={[8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <animated.mesh
+                    scale={springs.scale}
+                    rotation={[0.615, -0.785, 0]}
+                    position={[0, 0.2, 0]}
+                >
+                    <coneGeometry args={[1.5, 2.8, 32]} />
+                    <meshStandardMaterial
+                        color="#808080"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                </animated.mesh>
+            </Canvas>
+        </div>
+    )
+}
+
+export const Prism: FC<shapeProps> = ({ size }) => {
+    const springs = useSpring({
+        scale: [1, 1, 1] as unknown as Vector3,
+        from: { scale: [0, 0, 0] as unknown as Vector3 },
+        config: { mass: 1, tension: 280, friction: 20 },
+    })
+
+    return (
         <div
-            className="absolute inset-0"
-            style={{
-                height: '90%',
-                width: '50%',
-                background: 'linear-gradient(135deg, #bab9b9, #1a1a1a)',
-                transform: `translateY(calc(${size} / 4)) skewY(45deg)`,
-                boxShadow: 'inset -5px -5px 10px rgba(0,0,0,0.3)',
-            }}
-        />
-        {/* Right face */}
-        <div
-            className="absolute inset-0"
-            style={{
-                height: '90%',
-                width: '50%',
-                background: 'linear-gradient(225deg, #949393, #1a1a1a)',
-                transform: `translateY(calc(${size} / 4)) translateX(calc(${size} / 2)) skewY(-45deg)`,
-                boxShadow: 'inset 5px -5px 10px rgba(0,0,0,0.3)',
-            }}
-        />
-    </div>
-)
+            className="flex items-center justify-center"
+            style={{ width: size, height: size }}
+        >
+            <Canvas
+                dpr={[1, 2]}
+                camera={{
+                    position: [0, 0, 15],
+                    fov: 15,
+                }}
+            >
+                <ambientLight intensity={1.3} />
+                <directionalLight
+                    position={[15, 15, 15]}
+                    intensity={1.2}
+                    castShadow
+                />
+                <directionalLight position={[-15, -15, -15]} intensity={0.7} />
+                <pointLight
+                    position={[8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, 2]}
+                    intensity={0.4}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[-8, 8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <pointLight
+                    position={[0, -8, -2]}
+                    intensity={0.35}
+                    distance={30}
+                    decay={1.8}
+                />
+                <animated.mesh
+                    scale={springs.scale}
+                    rotation={[0.615, -0.785, 0]}
+                    position={[0, 0.2, 0]}
+                >
+                    <cylinderGeometry args={[1.5, 1.5, 2.5, 3]} />
+                    <meshStandardMaterial
+                        color="#808080"
+                        metalness={0.1}
+                        roughness={0.35}
+                    />
+                </animated.mesh>
+            </Canvas>
+        </div>
+    )
+}
