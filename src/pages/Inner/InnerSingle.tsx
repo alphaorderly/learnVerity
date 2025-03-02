@@ -1,6 +1,7 @@
 import { SetStateAction, useAtom, useAtomValue } from 'jotai'
 import { FC, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckCircle, Award, User, Shapes, Sword, Shield } from 'lucide-react'
 import Shape from '../../types/shape'
 import BackShadow from '../../components/Shadow/BackShadow'
 import { SetAtom } from '../../types/jotai'
@@ -20,6 +21,8 @@ type InnerSingleProps = {
     innerSetters: SetAtom<[SetStateAction<Shape[]>], void>[]
     innerPlayers: (Shape | null)[]
     innerPlayersSetters: SetAtom<[SetStateAction<Shape | null>], void>[]
+    playerNames: string[]
+    think: boolean
 }
 
 const InnerSingle: FC<InnerSingleProps> = ({
@@ -28,11 +31,11 @@ const InnerSingle: FC<InnerSingleProps> = ({
     innerPlayersSetters,
     innerSetters,
     innerShapes,
+    playerNames,
+    think,
 }) => {
     const { t } = useTranslation()
     const { translate } = useShapeTranslate()
-
-    const playerNames = ['A', 'B', 'C']
 
     // Ogre is catched
     const [ogre, setOgre] = useState<boolean>(false)
@@ -84,44 +87,58 @@ const InnerSingle: FC<InnerSingleProps> = ({
         Triangle: '▲',
     }
 
+    const myPosition = ['position.left', 'position.middle', 'position.right']
+
     return (
-        <div className="flex flex-1 flex-col items-center">
-            <div className="mt-10 text-5xl font-black text-gray-800">
-                {successed ? t('success') : t('trying')}
+        <div className="flex flex-1 flex-col items-center rounded-xl bg-gradient-to-b from-gray-50 to-white p-4">
+            {/* Status Header */}
+            <div className="mb-8 flex w-full max-w-2xl flex-col items-center rounded-xl bg-white p-6 shadow-lg">
+                <div className="mb-4 flex items-center gap-3">
+                    {successed ? (
+                        <CheckCircle className="size-8 text-emerald-500" />
+                    ) : (
+                        <Award className="size-8 text-amber-500" />
+                    )}
+                    <h1 className="text-4xl font-black tracking-tight text-gray-800">
+                        {successed ? t('success') : t('trying')}
+                    </h1>
+                </div>
+
+                <div className="mb-4 flex items-center justify-center">
+                    <span className="flex items-center gap-2 rounded-full bg-indigo-50 px-6 py-3 text-2xl font-medium text-indigo-700 shadow-sm ring-1 ring-indigo-100">
+                        <User className="size-6" />
+                        {t('username', { username: playerNames[index] })}
+                    </span>
+                </div>
+
+                <div className="text-center">
+                    <span className="flex items-center gap-2 rounded-md bg-gray-50 px-4 py-2 text-xl text-gray-600 shadow-sm">
+                        <Shapes className="size-5 text-gray-500" />
+                        {t('usershape')} : {translate(innerPlayers[index])}
+                    </span>
+                </div>
             </div>
 
-            <div className="my-8 flex justify-center text-center">
-                <span className="rounded-lg bg-gray-50 px-6 py-2 text-4xl font-medium text-gray-700 shadow-sm">
-                    {t('username', { username: playerNames[index] })}
-                </span>
-            </div>
-
-            <div className="text-center">
-                <span className="rounded-md bg-white px-4 py-2 text-2xl text-gray-600 shadow-sm">
-                    {t('usershape')} : {translate(innerPlayers[index])}
-                </span>
-            </div>
-
-            <div className="my-10">
+            {/* Game Board */}
+            <div className="my-6 rounded-lg bg-white p-4 shadow-md">
                 <BackShadow shapes={innerShapes[index]} />
             </div>
 
-            <div className="my-10 flex select-none gap-10">
+            {/* Knights Section */}
+            <div className="my-8 flex select-none gap-6">
                 {knight.map((shape, i) => (
                     <div
                         key={shape + playerNames[i]}
-                        className="m-2 flex size-16 cursor-pointer items-center justify-center rounded-lg bg-white text-2xl shadow-sm transition-colors hover:bg-gray-50"
+                        className="group relative m-2 flex size-32 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-md transition-all hover:scale-105 hover:shadow-lg"
                         onClick={() => {
                             if (
                                 innerPlayers[index] !== null &&
                                 threeD.includes(innerPlayers[index])
                             ) {
-                                // If shape is 3D, do nothing
                                 return
                             }
 
                             if (!catched[i]) {
-                                // If catched, change into shape
                                 setCatched(prev => {
                                     const next = [...prev]
                                     next[i] = true
@@ -142,50 +159,60 @@ const InnerSingle: FC<InnerSingleProps> = ({
                         }}
                     >
                         {catched[i] ? null : (
-                            <div className="flex flex-col items-center">
-                                <img
-                                    src={hiveKnight}
-                                    alt="knight"
-                                    className="size-24 rounded-md object-cover"
-                                />
-                                <span className="mt-1 text-base font-medium text-gray-700">
+                            <div className="flex size-full flex-col items-center justify-center p-2">
+                                <div className="relative size-20 overflow-hidden rounded-lg">
+                                    <img
+                                        src={hiveKnight}
+                                        alt="knight"
+                                        className="size-full object-contain transition-transform group-hover:scale-110"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                                </div>
+                                <span className="mt-2 flex items-center gap-1 text-sm font-medium text-gray-700">
+                                    <Sword className="size-3" />
                                     {t('knight')}
                                 </span>
                             </div>
                         )}
                         {catched[i] && !gotShape[i] ? (
-                            <span className="transition-transform hover:scale-110">
-                                {shapes[shape]}
-                            </span>
+                            <div className="flex size-full items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50">
+                                <span className="text-4xl transition-transform hover:scale-125">
+                                    {shapes[shape]}
+                                </span>
+                            </div>
                         ) : null}
                     </div>
                 ))}
             </div>
 
-            <div>
+            {/* Ogre Section */}
+            <div className="my-4">
                 {!ogre && catched.every(c => c) ? (
                     <div
-                        className="m-2 mt-10 flex size-16 cursor-pointer items-center justify-center rounded-lg bg-white text-2xl shadow-sm transition-colors hover:bg-gray-50"
+                        className="group relative m-2 flex h-40 w-48 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-md transition-all hover:scale-105 hover:shadow-lg"
                         onClick={() => {
                             setOgre(true)
                             doSomething()
                         }}
                     >
-                        <div className="flex flex-col items-center">
+                        <div className="relative h-32 w-full overflow-hidden">
                             <img
                                 src={ogreImage}
                                 alt="ogre"
-                                className="h-24 w-48 rounded-md object-cover"
+                                className="size-full object-contain transition-transform group-hover:scale-110"
                             />
-                            <span className="mt-1 text-base font-medium text-gray-700">
-                                {t('ogre')}
-                            </span>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         </div>
+                        <span className="mt-2 flex items-center gap-1 text-sm font-medium text-gray-700">
+                            <Shield className="size-3" />
+                            {t('ogre')}
+                        </span>
                     </div>
                 ) : null}
             </div>
 
-            <div className="flex gap-10">
+            {/* Statues Section */}
+            <div className="mt-8 flex gap-10">
                 {innerStatues.map((shape, i) => (
                     <div
                         key={shape + playerNames[i]}
@@ -196,15 +223,12 @@ const InnerSingle: FC<InnerSingleProps> = ({
                         onClick={() => {
                             const from = index
                             const to = i
-                            // If from and to is same, do nothing
                             if (from === to) {
                                 return
                             }
-                            // if player does not have shape, do nothing
                             if (innerPlayers[from] === null) {
                                 return
                             }
-                            // if player has 3D shape, just remove it
                             if (threeD.includes(innerPlayers[from])) {
                                 innerPlayersSetters[from](null)
                                 return
@@ -221,15 +245,25 @@ const InnerSingle: FC<InnerSingleProps> = ({
                             )
                         }}
                     >
-                        <PlayerStatue
-                            shape={shadow[index][i]}
-                            key={shape + playerNames[i]}
-                            name={playerNames[i]}
-                            bold={index === i}
-                        />
+                        <div className="rounded-lg transition-all">
+                            <PlayerStatue
+                                shape={shadow[index][i]}
+                                key={shape + playerNames[i]}
+                                name={playerNames[i]}
+                                bold={index === i}
+                            />
+                        </div>
                     </div>
                 ))}
             </div>
+            {think && (
+                <div className="relative top-32 text-lg font-medium text-gray-600">
+                    {t('statue.hint', {
+                        position: t(myPosition[index]),
+                        shape: translate(innerStatues[index]),
+                    })}
+                </div>
+            )}
         </div>
     )
 }

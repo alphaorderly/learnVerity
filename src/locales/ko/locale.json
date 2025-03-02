@@ -16,5 +16,11 @@
     "Prism": "삼극",
     "Nothing": "없음",
     "innerCall": "내부조 채팅",
-    "reset": "초기화"
+    "reset": "초기화",
+    "statue.hint": "내 석상의 위치는 {{position}} 이고 그 석상은 {{shape}} 을/를 들고 있다.",
+    "position.left": "왼쪽",
+    "position.right": "오른쪽",
+    "position.middle": "중앙",
+    "think.on": "생각 모드: 켜짐",
+    "think.off": "생각 모드: 꺼짐"
 }

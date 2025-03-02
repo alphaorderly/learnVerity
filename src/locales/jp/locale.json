@@ -16,5 +16,11 @@
     "Prism": "三角柱",
     "Nothing": "未所持",
     "innerCall": "内チャット",
-    "reset": "リセット"
+    "reset": "リセット",
+    "statue.hint": "私の像は{{position}}にあり、{{shape}}を持っています",
+    "position.left": "左",
+    "position.right": "右",
+    "position.middle": "中央",
+    "think.on": "思考モード: オン",
+    "think.off": "思考モード: オフ"
 }

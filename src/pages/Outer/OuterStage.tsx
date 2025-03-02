@@ -2,6 +2,7 @@
 import { useAtom, useAtomValue } from 'jotai'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
+import { Award, CheckCircle, Shapes } from 'lucide-react'
 import { innerStatue } from '../../states/inner-states'
 import { outerPlayer, outerStatues } from '../../states/outer-states'
 import Shape from '../../types/shape'
@@ -166,8 +167,15 @@ const OuterStage = () => {
         <div className="min-h-screen">
             <div className="mx-auto max-w-[1920px] p-8">
                 <div className="flex flex-col items-center">
-                    <div className="mb-16 text-4xl font-black text-gray-800">
-                        {successed ? t('success') : t('trying')}
+                    <div className="mb-16 flex items-center gap-3">
+                        {successed ? (
+                            <CheckCircle className="size-8 text-emerald-500" />
+                        ) : (
+                            <Award className="size-8 text-amber-500" />
+                        )}
+                        <span className="text-4xl font-black text-gray-800">
+                            {successed ? t('success') : t('trying')}
+                        </span>
                     </div>
 
                     <div className="mb-12 flex flex-col items-center gap-6">
@@ -186,7 +194,8 @@ const OuterStage = () => {
                         </div>
                     </div>
 
-                    <div className="rounded-lg bg-white/80 px-5 py-2 text-xl font-bold text-gray-700 shadow-sm">
+                    <div className="flex items-center gap-2 rounded-lg bg-white/80 px-5 py-2 text-xl font-bold text-gray-700 shadow-sm">
+                        <Shapes className="size-5 text-gray-500" />
                         {t('usershape')} : {translate(player)}
                     </div>
 

@@ -16,5 +16,11 @@
     "Prism": "Prism",
     "Nothing": "Nothing",
     "innerCall": "Inside chat",
-    "reset": "Reset"
+    "reset": "Reset",
+    "statue.hint": "My position is on {{position}} and my statue has a shape of {{shape}}.",
+    "position.left": "Left",
+    "position.right": "Right",
+    "position.middle": "Center",
+    "think.on": "inner think on",
+    "think.off": "Turn off inner off"
 }
