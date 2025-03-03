@@ -12,7 +12,7 @@ const MainStage: FC = () => {
     }
 
     return (
-        <div className="flex select-none flex-col pb-96">
+        <div className="flex min-w-[1600px] select-none flex-col">
             <div className="flex flex-col items-start gap-10 p-10">
                 <div className="mx-auto w-full max-w-4xl px-4 py-8">
                     <div className="rounded-xl bg-white p-6 shadow-lg">

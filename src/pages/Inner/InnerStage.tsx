@@ -1,4 +1,3 @@
- 
 import { FC, useEffect, useMemo } from 'react'
 import { useAtom, useSetAtom } from 'jotai'
 import { useTranslation } from 'react-i18next'
@@ -148,8 +147,8 @@ const InnerStage: FC = () => {
                     color="#6366f1"
                 />
             </div>
-            <div className="mx-auto max-w-[1920px] p-8">
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
+            <div className="mx-auto p-8">
+                <div className="grid grid-cols-3 gap-8">
                     {playerPosition.map(position => (
                         <div className="rounded-2xl bg-white/50 p-6  transition-transform hover:scale-[1.02] lg:p-8">
                             <InnerSingle

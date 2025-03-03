@@ -92,7 +92,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
     return (
         <div className="flex flex-1 flex-col items-center rounded-xl bg-gradient-to-b from-gray-50 to-white p-4">
             {/* Status Header */}
-            <div className="mb-8 flex w-full max-w-2xl flex-col items-center rounded-xl bg-white p-6 shadow-lg">
+            <div className="mb-8 flex w-full flex-col items-center rounded-xl bg-white p-6 shadow-lg">
                 <div className="mb-4 flex items-center gap-3">
                     {successed ? (
                         <CheckCircle className="size-8 text-emerald-500" />
