@@ -129,7 +129,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
                 {knight.map((shape, i) => (
                     <div
                         key={shape + playerNames[i]}
-                        className="group relative m-2 flex size-32 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-md transition-all hover:scale-105 hover:shadow-lg"
+                        className="group relative m-2 flex size-32 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-md"
                         onClick={() => {
                             if (
                                 innerPlayers[index] !== null &&
@@ -164,7 +164,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
                                     <img
                                         src={hiveKnight}
                                         alt="knight"
-                                        className="size-full object-contain transition-transform group-hover:scale-110"
+                                        className="size-full object-contain"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                                 </div>
@@ -176,7 +176,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
                         )}
                         {catched[i] && !gotShape[i] ? (
                             <div className="flex size-full items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50">
-                                <span className="text-4xl transition-transform hover:scale-125">
+                                <span className="text-4xl">
                                     {shapes[shape]}
                                 </span>
                             </div>
@@ -189,7 +189,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
             <div className="my-4">
                 {!ogre && catched.every(c => c) ? (
                     <div
-                        className="group relative m-2 flex h-40 w-48 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-md transition-all hover:scale-105 hover:shadow-lg"
+                        className="group relative m-2 flex h-40 w-48 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl bg-white shadow-md"
                         onClick={() => {
                             setOgre(true)
                             doSomething()
@@ -199,7 +199,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
                             <img
                                 src={ogreImage}
                                 alt="ogre"
-                                className="size-full object-contain transition-transform group-hover:scale-110"
+                                className="size-full object-contain"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         </div>
@@ -216,7 +216,7 @@ const InnerSingle: FC<InnerSingleProps> = ({
                 {innerStatues.map((shape, i) => (
                     <div
                         key={shape + playerNames[i]}
-                        className="relative cursor-pointer transition-transform hover:scale-105"
+                        className="relative cursor-pointer"
                         style={{
                             top: i === 1 ? '50px' : '0px',
                         }}

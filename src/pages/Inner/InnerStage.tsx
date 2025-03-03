@@ -150,7 +150,7 @@ const InnerStage: FC = () => {
             <div className="mx-auto p-8">
                 <div className="grid grid-cols-3 gap-8">
                     {playerPosition.map(position => (
-                        <div className="rounded-2xl bg-white/50 p-6  transition-transform hover:scale-[1.02] lg:p-8">
+                        <div className="rounded-2xl bg-white/50 p-6 lg:p-8">
                             <InnerSingle
                                 index={position}
                                 innerPlayers={innerPlayers}

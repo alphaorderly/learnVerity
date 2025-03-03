@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useAtom, useAtomValue } from 'jotai'
 import { useTranslation } from 'react-i18next'
@@ -24,7 +25,7 @@ const Recipe = ({
     result: Shape
     translate: (shape: Shape) => string
 }) => (
-    <div className="flex items-center justify-between rounded-xl bg-white/80 p-6 shadow-sm transition-all hover:scale-[1.02]">
+    <div className="flex items-center justify-between rounded-xl bg-white/80 p-6 shadow-sm">
         <div className="flex items-center gap-12">
             <div className="flex items-center gap-6">
                 <div className="flex flex-col items-center gap-2">
@@ -72,13 +73,9 @@ const OuterStage = () => {
     const [outerStatue, setOuterStatue] = useAtom(outerStatues)
     const [player, setPlayer] = useAtom(outerPlayer)
 
-    const [pickShapes, setPickShapes] = useState<boolean[]>([
-        false,
-        false,
-        false,
-    ])
-
-    const bottomShapes = [Shape.Circle, Shape.Square, Shape.Triangle]
+    const [leftPick, setLeftPick] = useState<boolean>(false)
+    const [middlePick, setMiddlePick] = useState<boolean>(false)
+    const [rightPick, setRightPick] = useState<boolean>(false)
 
     const [changeShape, setChangeShape] = useState<[Shape | null, number]>([
         null,
@@ -200,34 +197,56 @@ const OuterStage = () => {
                     </div>
 
                     <div className="mt-12 flex items-center gap-20">
-                        {bottomShapes.map((shape, index) => (
+                        <div className="mt-12 flex items-center gap-20">
                             <div
-                                key={shape}
                                 onClick={() => {
-                                    if (pickShapes[index]) return
-                                    setPlayer(shapeAdder(player, shape))
-                                    setPickShapes(prev =>
-                                        prev
-                                            .slice(0, index)
-                                            .concat(true)
-                                            .concat(prev.slice(index + 1))
+                                    setLeftPick(true)
+                                    setPlayer(shapeAdder(player, Shape.Circle))
+                                }}
+                                className="cursor-pointer text-5xl"
+                                style={{
+                                    display: leftPick ? 'none' : 'block',
+                                }}
+                            >
+                                {shapes[Shape.Circle]}
+                            </div>
+                            <div
+                                onClick={() => {
+                                    setMiddlePick(true)
+                                    setPlayer(shapeAdder(player, Shape.Square))
+                                }}
+                                className="cursor-pointer text-5xl"
+                                style={{
+                                    display: middlePick ? 'none' : 'block',
+                                }}
+                            >
+                                {shapes[Shape.Square]}
+                            </div>
+                            <div
+                                onClick={() => {
+                                    setRightPick(true)
+                                    setPlayer(
+                                        shapeAdder(player, Shape.Triangle)
                                     )
                                 }}
-                                className={`cursor-pointer text-5xl transition-transform hover:scale-110 ${
-                                    pickShapes[index]
-                                        ? 'text-transparent'
-                                        : 'text-gray-800'
-                                }`}
+                                className="cursor-pointer text-5xl"
+                                style={{
+                                    display: rightPick ? 'none' : 'block',
+                                }}
                             >
-                                {shapes[shape]}
+                                {shapes[Shape.Triangle]}
                             </div>
-                        ))}
+                        </div>
                     </div>
 
-                    {pickShapes.some(item => item) && (
+                    {(leftPick || rightPick || middlePick) && (
                         <button
-                            className="mt-10 rounded-lg bg-gray-800 px-8 py-3 font-medium text-white transition-colors hover:bg-gray-700"
-                            onClick={() => setPickShapes([false, false, false])}
+                            className="mt-10 rounded-lg bg-gray-800 px-8 py-3 font-medium text-white"
+                            onClick={() => {
+                                setLeftPick(false)
+                                setMiddlePick(false)
+                                setRightPick(false)
+                            }}
                             type="button"
                         >
                             {t('reset')}
@@ -240,7 +259,7 @@ const OuterStage = () => {
                                 key={index}
                                 className={`flex flex-col items-center gap-12 ${index === 1 ? 'relative top-10' : ''}`}
                             >
-                                <div className="rounded-2xl bg-white/50 p-4 transition-transform hover:scale-[1.02]">
+                                <div className="rounded-2xl bg-white/50 p-4">
                                     <PlayerStatue
                                         shape={shapeAdder(
                                             outerStatue[index][0],

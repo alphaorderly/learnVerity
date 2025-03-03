@@ -5,7 +5,7 @@ const Github = () => {
 
     return (
         <div
-            className="cursor-pointer transition-colors hover:opacity-50"
+            className="cursor-pointer"
             onClick={click}
         >
             <svg

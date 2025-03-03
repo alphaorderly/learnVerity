@@ -28,7 +28,7 @@ const MainStage: FC = () => {
                                 id="language_select"
                                 onChange={changeLanguage}
                                 defaultValue={i18n.language}
-                                className="w-full cursor-pointer appearance-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-lg font-medium text-gray-700 transition-colors hover:bg-gray-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                                className="w-full cursor-pointer appearance-none rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-lg font-medium text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                             >
                                 <option value="en" className="py-2">
                                     🇺🇸 English / 영어
