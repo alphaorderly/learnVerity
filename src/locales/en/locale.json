@@ -21,6 +21,6 @@
     "position.left": "Left",
     "position.right": "Right",
     "position.middle": "Center",
-    "think.on": "inner think on",
-    "think.off": "Turn off inner off"
+    "think.on": "Show What sould think",
+    "think.off": "Do not show What you should think"
 }
